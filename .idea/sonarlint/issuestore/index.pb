@@ -130,11 +130,9 @@ E
 controllers/puzzle.js,2\5\2594453865db7f388c89c1bb5574bf722caa51ea
 K
 controllers/notification.js,0\a\0a48917173516304077bb8e1a4b64f8050f490fc
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 G
 controllers/campaign.js,8\f\8fd541485f957e1eb3450087cbde369070df033c
 B
 routes/campaign.js,0\8\08da4a5d36f55ee150720bf86d2040c794ffffc1
-C
-controllers/user.js,9\3\93e97096bbeb10b30c0c53947364edd9141014a4
+G
+controllers/employee.js,0\a\0a22e6a2dfa7edc2f751fb01bbdd3cae02ee1af0

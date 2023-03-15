@@ -46,6 +46,12 @@ const paymentAdminRouter = require("./routes/admin/payment");
 const notificationAdminRouter = require("./routes/admin/notification");
 const puzzleAdminRouter = require("./routes/admin/puzzle");
 const userjoinRouter = require("./routes/userjoin");
+
+const cors = require('cors');
+app.use(cors({
+  origin: '*'
+}));
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
