@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {addNoti} = require("../controllers/notification");
+const { addNoti } = require("../controllers/notification");
 const voucherSubSchema = new mongoose.Schema(
   {
     discount: Number,
@@ -65,17 +65,4 @@ const campaignSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-campaignSchema.pre("updateOne", async function (next) {
-    if (this._update.$set && this._update.status) {
-        await addNoti(
-            null,
-             "",
-            "New Campaign",
-             "New Campaign has been created",
-             true,
-             null
-        )
-    }
-    next();
-});
 module.exports = mongoose.model("Campaign", campaignSchema);

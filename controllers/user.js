@@ -13,43 +13,49 @@ exports.createUser = async (req, res) => {
 };
 
 exports.userSignIn = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).send({ error: "User not found" });
-  const isPasswordMatch = await user.comparePassword(password);
-  let token;
-  if (!isPasswordMatch)
-    return res.status(400).send({ error: "Password is incorrect" });
-  if (user.role === "Counterpart") {
-    const counterpart = await Counterpart.findOne({ userID: user._id });
-    if (counterpart !== null) {
-      token = jwt.sign(
-        { _id: user._id, counterpartID: counterpart._id },
-        process.env.JWT_SECRET,
-        {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).send({ error: "User not found" });
+    const isPasswordMatch = await user.comparePassword(password);
+    let token;
+    if (!isPasswordMatch)
+      return res.status(400).send({ error: "Password is incorrect" });
+    if (user.role === "Counterpart") {
+      const counterpart = await Counterpart.findOne({ userID: user._id });
+      if (counterpart !== null) {
+        token = jwt.sign(
+          { _id: user._id, counterpartID: counterpart._id },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: SECONDS_PER_DAY,
+          }
+        );
+      } else {
+        token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
           expiresIn: SECONDS_PER_DAY,
-        }
-      );
+        });
+      }
+      // token = jwt.sign(
+      //   { _id: user._id, counterpartID: counterpart._id },
+      //   process.env.JWT_SECRET,
+      //   {
+      //     expiresIn: SECONDS_PER_DAY,
+      //   }
+      // );
     } else {
       token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: SECONDS_PER_DAY,
       });
     }
-    // token = jwt.sign(
-    //   { _id: user._id, counterpartID: counterpart._id },
-    //   process.env.JWT_SECRET,
-    //   {
-    //     expiresIn: SECONDS_PER_DAY,
-    //   }
-    // );
-  } else {
-    token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: SECONDS_PER_DAY,
-    });
-  }
 
-  const expiredAt = new Date(Date.now() + SECONDS_PER_DAY * 1000).getTime();
-  return res.json({ success: true, user, token, expiredAt: expiredAt });
+    const expiredAt = new Date(Date.now() + SECONDS_PER_DAY * 1000).getTime();
+    return res
+      .status(200)
+      .json({ success: true, user, token, expiredAt: expiredAt });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 exports.signOut = async (req, res) => {
