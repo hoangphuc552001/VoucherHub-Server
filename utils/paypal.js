@@ -65,6 +65,7 @@ async function capturePayment(orderId, counterpartID, campaignID) {
           title: "Check Out",
           description: `${counterpart.nameOfShop} has been checked out ${data.purchase_units[0].payments.captures[0].amount.value}`,
           all: false,
+          seen: false,
           campaignID: campaign._id,
           userID: "63c0df555c82e28ff69f8a5b",
         });

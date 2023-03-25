@@ -8,6 +8,7 @@ exports.addNoti = async (
   all,
   campaignID
 ) => {
+  console.log(campaignID);
   const newNoti = new Notification({
     userID,
     image,

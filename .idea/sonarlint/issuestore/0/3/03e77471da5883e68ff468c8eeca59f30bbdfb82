@@ -1,3 +1,5 @@
 
-Šjavascript:S2703,"bAdd the "let", "const" or "var" keyword to this declaration of "incomeResult" to make it explicit.(´Ëº…şÿÿÿÿ8Â£¯ë0
-pjavascript:S4138ü"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(‰Šô’8Ã£¯ë0
+ajavascript:S1481(">Remove the declaration of the unused 'accountResult' variable.(è›¢¹8£Œæ”ñ0
+Šjavascript:S2703-"bAdd the "let", "const" or "var" keyword to this declaration of "incomeResult" to make it explicit.(´Ëº…şÿÿÿÿ8Â£¯ë0
+ujavascript:S4138ü"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(ñ©–»ùÿÿÿÿ8Ã£¯ë0
+pjavascript:S4138†"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(‰Šô’8£Œæ”ñ0

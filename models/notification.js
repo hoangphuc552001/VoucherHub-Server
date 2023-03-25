@@ -21,7 +21,7 @@ const notificationSchema = new mongoose.Schema(
       type: Boolean,
     },
     campaignID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
     },
   },
   { timestamps: true }

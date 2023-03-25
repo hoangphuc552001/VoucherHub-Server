@@ -11,6 +11,20 @@ router.post("/", async (req, res) => {
   res.json(order);
 });
 
+router.get("/:id", isAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const x = await Payment.findOne({ paymentID: id });
+    res.status(200).send({
+      success: true,
+      message: "Get all invoices successfully",
+      payment: x,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send({ success: false, message: e.message });
+  }
+});
 router.get("/", isAuth, async (req, res) => {
   try {
     const campaigns = await Campaign.find({
