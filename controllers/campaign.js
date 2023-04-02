@@ -47,8 +47,8 @@ exports.createCampaign = async (req, res) => {
       description: `${counterpart.nameOfShop} has been created a campaign`,
     });
     res
-      .status(201)
-      .send({ success: true, message: "Campaign created successfully" });
+        .status(201)
+        .send({ success: true, message: "Campaign created successfully" });
   } catch (e) {
     console.log(e);
     res.status(400).send({ success: false, message: e.message });
@@ -61,22 +61,22 @@ exports.createCampaignForMobile = async (req, res) => {
     const category = await Category.find({ name: req.body.category });
     if (category.length <= 0)
       return res
-        .status(400)
-        .send({ success: false, message: "Category not found" });
+          .status(400)
+          .send({ success: false, message: "Category not found" });
     req.body.category = category[0]._id;
     const campaign = new Campaign(req.body);
     await Notification.addNoti(
-      userID,
-      campaign.image,
-      "New Campaign",
-      campaign.name,
-      false,
-      campaign._id
+        userID,
+        campaign.image,
+        "New Campaign",
+        campaign.name,
+        false,
+        campaign._id
     );
     await campaign.save();
     res
-      .status(201)
-      .send({ success: true, message: "Campaign created successfully" });
+        .status(201)
+        .send({ success: true, message: "Campaign created successfully" });
   } catch (e) {
     console.log(e);
     res.status(400).send({ success: false, message: e.message });
@@ -86,8 +86,8 @@ exports.createCampaignForMobile = async (req, res) => {
 exports.getPopularBranch = async (req, res) => {
   try {
     const campaigns = await Campaign.find()
-      .limit(5)
-      .sort({ totalDonation: -1 });
+        .limit(5)
+        .sort({ totalDonation: -1 });
     res.status(200).send({
       success: true,
       message: "Get popular branch successfully",
@@ -105,8 +105,8 @@ exports.addFavorite = async (req, res) => {
     const campaign = await Campaign.findById(campaignID);
     if (!user && !campaign)
       return res
-        .status(400)
-        .send({ success: false, message: "User or campaign not found" });
+          .status(400)
+          .send({ success: false, message: "User or campaign not found" });
     const checkExist = await Favorite.findOne({ userID, campaignID });
     if (checkExist) {
       await Favorite.deleteOne({ userID, campaignID });
@@ -132,8 +132,8 @@ exports.deleteFavorite = async (req, res) => {
     const campaign = await Campaign.findById(campaignID);
     if (!user && !campaign)
       return res
-        .status(400)
-        .send({ success: false, message: "User or campaign not found" });
+          .status(400)
+          .send({ success: false, message: "User or campaign not found" });
     await Favorite.deleteOne({ userID, campaignID });
     res.status(200).send({
       success: true,
@@ -146,11 +146,11 @@ exports.deleteFavorite = async (req, res) => {
 
 exports.getNewestCampaign = async (req, res) => {
   try {
-    let campaigns = await Campaign.find().limit(5).sort({ createdAt: -1 });
+    let campaigns = await Campaign.find({status:"HAPPENING"}).limit(5).sort({ createdAt: -1 });
     let newCampaigns = [];
     for (let i = 0; i < campaigns.length; i++) {
       const objectAddress = await Counterpart.findById(
-        campaigns[i].counterpartID
+          campaigns[i].counterpartID
       );
       const address = objectAddress.headquarter;
       const shop = objectAddress.nameOfShop;
@@ -292,8 +292,8 @@ exports.updateCampaignStatus = async (req, res) => {
     console.log(campaignID, status);
     if (!campaignID || !status)
       return res
-        .status(400)
-        .send({ success: false, message: "Missing params" });
+          .status(400)
+          .send({ success: false, message: "Missing params" });
     await Campaign.findById(campaignID).updateOne({ status });
     res.status(200).send({
       success: true,
@@ -394,9 +394,9 @@ exports.getRelatedCampaign = async (req, res) => {
     const { campaignID } = req.body;
     if (!campaignID)
       return res
-        .status(400)
-        .send({ success: false, message: "Campaign not found" });
-    const campaign = await Campaign.find();
+          .status(400)
+          .send({ success: false, message: "Campaign not found" });
+    const campaign = await Campaign.find({status:"HAPPENING"});
     let list = [];
     for (let i = 0; i < campaign.length; i++) {
       if (campaign[i]._id.valueOf() !== campaignID.valueOf()) {
@@ -421,13 +421,13 @@ exports.getDetailsCampaign = async (req, res) => {
     const { campaignID } = req.body;
     if (!campaignID)
       return res
-        .status(400)
-        .send({ success: false, message: "Campaign not found" });
+          .status(400)
+          .send({ success: false, message: "Campaign not found" });
     let campaign = await Campaign.findById(campaignID);
     if (!campaign)
       return res
-        .status(400)
-        .send({ success: false, message: "Campaign not found" });
+          .status(400)
+          .send({ success: false, message: "Campaign not found" });
     const counterpart = await Counterpart.findById(campaign.counterpartID);
     const address = counterpart.headquarter;
     const shop = counterpart.nameOfShop;
@@ -465,18 +465,18 @@ exports.getQuiz = async (req, res) => {
     const { campaignID } = req.body;
     if (!campaignID)
       return res
-        .status(400)
-        .send({ success: false, message: "Campaign not found" });
+          .status(400)
+          .send({ success: false, message: "Campaign not found" });
     const campaign = await Campaign.findById(campaignID);
     if (!campaign)
       return res
-        .status(400)
-        .send({ success: false, message: "Campaign not found" });
+          .status(400)
+          .send({ success: false, message: "Campaign not found" });
     const quiz = await Quiz.findById(campaign.gameID);
     if (!quiz)
       return res
-        .status(400)
-        .send({ success: false, message: "Quiz not found" });
+          .status(400)
+          .send({ success: false, message: "Quiz not found" });
     return res.status(200).send({
       success: true,
       message: "Get quiz successfully",
@@ -489,7 +489,7 @@ exports.getQuiz = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const campaigns = await Campaign.find();
+    const campaigns = await Campaign.find({status:"HAPPENING"});
     return res.status(200).send({
       success: true,
       message: "Get all campaign successfully",
@@ -505,10 +505,10 @@ exports.getByCategory = async (req, res) => {
     const { category } = req.body;
     if (!category)
       return res
-        .status(400)
-        .send({ success: false, message: "Category not found" });
+          .status(400)
+          .send({ success: false, message: "Category not found" });
     if (category === "All") {
-      const list = await Campaign.find();
+      const list = await Campaign.find({status:"HAPPENING"});
       return res.status(200).send({
         success: true,
         message: "Get campaign by category successfully",
@@ -518,8 +518,8 @@ exports.getByCategory = async (req, res) => {
     const catFinding = await Category.find({ name: category });
     if (catFinding.length <= 0)
       return res
-        .status(400)
-        .send({ success: false, message: "Category not found" });
+          .status(400)
+          .send({ success: false, message: "Category not found" });
     console.log(catFinding[0]._id);
     const list = await Campaign.find({ category: catFinding[0]._id });
     console.log(list);
@@ -539,15 +539,16 @@ exports.getByBranch = async (req, res) => {
     const { branch } = req.body;
     if (!branch)
       return res
-        .status(400)
-        .send({ success: false, message: "Branch not found" });
+          .status(400)
+          .send({ success: false, message: "Branch not found" });
     const counterpart = await Counterpart.find({
       nameOfShop: branch,
+      status:"HAPPENING"
     });
     if (counterpart.length <= 0)
       return res
-        .status(400)
-        .send({ success: false, message: "Branch not found" });
+          .status(400)
+          .send({ success: false, message: "Branch not found" });
     const list = await Campaign.find({
       counterpartID: counterpart[0]._id,
     });
@@ -567,10 +568,11 @@ exports.getByCounterpart = async (req, res) => {
     const { counterpartID } = req.body;
     if (!counterpartID)
       return res
-        .status(400)
-        .send({ success: false, message: "Counterpart not found" });
+          .status(400)
+          .send({ success: false, message: "Counterpart not found" });
     const list = await Campaign.find({
       counterpartID,
+      status:"HAPPENING"
     });
     return res.status(200).send({
       success: true,
@@ -588,16 +590,16 @@ exports.searchCampaign = async (req, res) => {
     const { keyword } = req.body;
     if (!keyword)
       return res
-        .status(400)
-        .send({ success: false, message: "Keyword not found" });
-    const listCounterpart = await Counterpart.find();
+          .status(400)
+          .send({ success: false, message: "Keyword not found" });
+    const listCounterpart = await Counterpart.find({status:"HAPPENING"});
     const counterpart = listCounterpart.filter((item) =>
-      item.nameOfShop.toLowerCase().includes(keyword.toLowerCase())
+        item.nameOfShop.toLowerCase().includes(keyword.toLowerCase())
     );
     if (counterpart.length <= 0)
       return res
-        .status(400)
-        .send({ success: false, message: "Keyword not found" });
+          .status(400)
+          .send({ success: false, message: "Keyword not found" });
     const list = await Campaign.find({
       counterpartID: counterpart[0]._id,
     });
