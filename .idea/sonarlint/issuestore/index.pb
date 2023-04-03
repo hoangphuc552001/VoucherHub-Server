@@ -175,8 +175,6 @@ B
 models/userjoin.js,f\f\ff562bc4bcee3acc995023e24b338ade150986e7
 B
 routes/userjoin.js,1\c\1c1146f6d0569e36b462f5b22bf80df22c15c6c6
-A
-models/voucher.js,d\3\d3caa8a58c353190b7c74bb873e25db7c6529764
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
@@ -186,8 +184,6 @@ M
 controllers/admin/campaign.js,0\9\0964abd5f35d51433a663fd492c0644152ad6704
 A
 hardhat.config.js,4\2\429ab70247c64d2d87d4dac6787a6e4a9fb2ede2
-F
-models/notification.js,2\c\2c826be97120cb18803e9e352dfec25bd55c7a25
 ?
 utils/paypal.js,d\f\dfcbe9b2bd009c7928245a94138f271d6d6b94eb
 <

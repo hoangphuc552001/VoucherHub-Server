@@ -37,7 +37,7 @@ exports.addVoucher = async (req, res) => {
 exports.getAllVouchersById = async (req, res) => {
     try {
         const user = req.user._id
-        const vouchers = await Voucher.find({user})
+        const vouchers = await Voucher.find({user}).sort({createdAt: -1});
         res.status(200).send({success: true, message: 'Get all vouchers successfully', vouchers});
     } catch (e) {
         res.status(400).send({success: false, message: e.message});
@@ -163,7 +163,8 @@ exports.playGamev2 = async (req, res) => {
             const typeRandom = campaign.typeOfRandom
             if (typeRandom === 'uniswap') {
                 getRandomNumberBaseOnUniswap(points).then(async (x) => {
-                    const rand = getRandom(x);
+                    // const rand = getRandom(x);
+                    const rand = 5000
                     if (rand < 2000) {
                         res.status(201).send({
                             success: true, message: 'Better luck next time',
@@ -257,7 +258,8 @@ exports.playGamev2 = async (req, res) => {
                 let x = await getRandomNumberBaseOnUniswapWithNonceNumber(points);
                 let transaction = x.re
                 x = Number(x.rs)
-                const rand = getRandom(x);
+                // const rand = getRandom(x);
+                const rand = 5000
                 if (rand < 2000) {
                     res.status(201).send({
                         success: true, message: 'Better luck next time',
@@ -344,7 +346,8 @@ exports.playGamev2 = async (req, res) => {
                 getRandomNumberBaseOnChainLink(async (ob) => {
                     let transaction = ob.transactionHash
                     let x = Number(ob.randomNumber)
-                    const rand = getRandom(x);
+                    // const rand = getRandom(x);
+                    const rand = 5000
                     if (rand < 2000) {
                         res.status(201).send({
                             success: true, message: 'Better luck next time',
